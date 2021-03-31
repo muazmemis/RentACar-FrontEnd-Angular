@@ -1,0 +1,22 @@
+<table class="table table-striped table-success table-hover">
+  <thead>
+    <tr class="text-center">
+      <th>No</th>
+      <th>Araba</th>
+      <th>Müşteri</th>
+      <th>Kiralama Tarihi</th>
+      <th>Teslim Tarihi</th>
+      <th>Günlük Fiyatı</th>
+    </tr>
+  </thead>
+  <tbody class="text-center">
+    <tr *ngFor="let rental of rentals">
+      <td>{{ rental.id }}</td>
+      <td>{{ rental.carName }}</td>
+      <td>{{ rental.customerName }}</td>
+      <td>{{ rental.rentDate }}</td>
+      <td>{{ rental.returnDate }}</td>
+      <td>{{ rental.dailyPrice }}</td>
+    </tr>
+  </tbody>
+</table>
