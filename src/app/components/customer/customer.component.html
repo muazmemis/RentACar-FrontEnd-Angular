@@ -1,12 +1,6 @@
-<table class="table table-striped table-hover">
-  <thead>
-    <tr style="background-color: #04513e; color: white" class="text-center">
-      <th>Customers</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let customer of customers">
-      <td>{{ customer.companyName }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="list-group mt-3">
+  <button type="button" style="background-color: #4c0f5c; color: white" class="text-center">Customers</button>
+  <button *ngFor="let customer of customers" type="button" class="list-group-item list-group-item-action">
+    {{ customer.companyName }}
+  </button>
+</div>

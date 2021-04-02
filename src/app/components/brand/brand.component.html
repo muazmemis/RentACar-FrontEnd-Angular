@@ -1,12 +1,19 @@
-<table class="table table-striped table-primary table-hover">
-  <thead>
-    <tr class="text-center">
-      <th>BRANDS</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let brand of brands">
-      <td>{{ brand.brandName }}</td>
-    </tr>
-  </tbody>
-</table>
+<div class="list-group">
+  <button
+    type="button"
+    (click)="currentBrand = null"
+    [class]="getAllBrandClass()"
+    routerLink="/cars"
+  >
+    Brands All
+  </button>
+  <button
+    (click)="setCurrentBrand(brand)"
+    routerLink="/cars/brand/{{ brand.brandId }}"
+    *ngFor="let brand of brands"
+    type="button"
+    [class]="getCurrentBrandClass(brand)"
+  >
+    {{ brand.brandName }}
+  </button>
+</div>
