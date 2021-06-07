@@ -1,42 +1,86 @@
-<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
-  <div  class="carousel-indicators">
-    <button *ngFor="let image of carImages; let i = index"
-      type="button" data-bs-target="#carouselExampleIndicators" attr.data-bs-slide-to="{{ i }}"
-      [class]="getButtonClass(image)" aria-current="true" aria-label="Slide 1">
-    </button>
+<li
+  class="p-1 mb-3 bg-dark bg-gradient text-white text-center list-group-item"
+  style="font-size: 30px"
+>
+  CAR DETAILS
+</li>
+
+<div
+  id="carouselExampleIndicators"
+  class="carousel slide"
+  data-bs-ride="carousel"
+>
+  <div class="carousel-indicators">
+    <button
+      *ngFor="let image of carImages; let i = index"
+      type="button"
+      data-bs-target="#carouselExampleIndicators"
+      attr.data-bs-slide-to="{{ i }}"
+      [class]="getButtonClass(image)"
+      aria-current="true"
+      aria-label="Slide 1"
+    ></button>
   </div>
   <div class="carousel-inner">
-    <div *ngFor="let carImage of carImages ; index as i; first as firstImage" [ngClass]="{ active: firstImage }" class="carousel-item active" data-bs-interval="2000">
-      <img src="{{imageUrl}}{{ carImage.imagePath }}" class="d-block w-100" alt="...">
+    <div
+      *ngFor="let carImage of carImages; index as i; first as firstImage"
+      [ngClass]="{ active: firstImage }"
+      class="carousel-item active"
+      data-bs-interval="2000"
+    >
+      <img
+        src="{{ imageUrl }}{{ carImage.imagePath }}"
+        class="d-block w-100"
+        alt="..."
+      />
     </div>
   </div>
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="prev"
+  >
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Previous</span>
   </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#carouselExampleIndicators"
+    data-bs-slide="next"
+  >
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Next</span>
   </button>
 </div>
+
 <div class="table-responsive-md mt-3 text-center">
-  <table class="table table-striped table-hover table-bordered">
+  <table class="table">
     <thead>
-      <tr>
+      <tr style="color: #ffffff; background-color: #4c0f5c">
+        <th>Car</th>
         <th>Brand</th>
         <th>Color</th>
         <th>Model Year</th>
-        <th>Daily Price</th>
         <th>Description</th>
+        <th>Daily Price</th>
+        <th></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let car of carDetails">
+        <td>{{ car.carName }}</td>
         <td>{{ car.brandName }}</td>
         <td>{{ car.colorName }}</td>
         <td>{{ car.modelYear }}</td>
-        <td>$ {{ car.dailyPrice }}</td>
         <td>{{ car.description }}</td>
+        <td style="color: #f00000; font-size: 20px">
+          {{ car.dailyPrice | vatAdded: 10 | currency }}
+        </td>
+        <td>
+          <app-rental></app-rental>
+        </td>
       </tr>
     </tbody>
   </table>

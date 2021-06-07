@@ -1,0 +1,181 @@
+<div class="row mt-3">
+  <h4 class="text-center">İşlem Özeti</h4>
+  <br />
+  <table class="table table-bordered" id="tablerental">
+    <thead id="tablerentalthead">
+      <tr>
+        <th>Kira Başlangıç Tarih</th>
+        <th>Kira Bitiş Tarih</th>
+        <th>Marka</th>
+        <th>Renk</th>
+        <th>Açıklama</th>
+        <th>Günlük Fiyat</th>
+        <th>Toplam Tutar</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ rental.rentDate }}</td>
+        <td>{{ rental.returnDate }}</td>
+        <td>{{ rental.brandName }}</td>
+        <td>{{ rental.colorName }}</td>
+        <td>{{ rental.description }}</td>
+        <td>{{ rental.dailyPrice }}</td>
+        <td style="background-color: darkseagreen">{{ amountOfPayment }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br />
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <div class="row">
+              <h3 class="text-center">Payment Details</h3>
+              <div align="center">
+                <img
+                  class="img-responsive cc-img col align-self-center"
+                  id="payment"
+                  src="http://www.prepbootstrap.com/Content/images/shared/misc/creditcardicons.png"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div>
+              <div
+                class="card credit-card col-6 text-light border mx-auto"
+                id="card"
+                style="
+                  height: 16rem;
+                  background: linear-gradient(
+                    50deg,
+                    #325adfd5 50%,
+                    #aaaaaa 80%
+                  );
+                "
+              >
+                <div
+                  class="card mx-4 my-4 position-absolute end-0"
+                  style="
+                    font-size: 22px;
+                    color: rgb(43, 43, 43);
+                    background: linear-gradient(
+                      120deg,
+                      #cfcfcf 15%,
+                      #707070 80%
+                    );
+                  "
+                >
+                  <b>KREDİ KARTI</b>
+                </div>
+                <div
+                  class="card mx-4 my-4 position-absolute bottom-90"
+                  style="width: 3rem; height: 2rem; background: #cecece"
+                ></div>
+                <div
+                  id="card-number"
+                  class="mt-3 position-absolute top-50 start-50 translate-middle text-nowrap"
+                >
+                  Card Number
+                  <p>{{ cardNumber ? cardNumber : "" }}</p>
+                </div>
+                <div class="card-user m-3 position-absolute bottom-0">
+                  Card Name
+                  <p>{{ nameOnTheCard ? nameOnTheCard : "" }}</p>
+                </div>
+                <div
+                  class="card-exp m-3 mb-0 position-absolute end-0 bottom-0"
+                  style="font-size: 14px; text-align: center"
+                >
+                  Son Geçerlilik Tarihi
+                  <p>{{ expirationDate ? expirationDate : "" }}</p>
+                </div>
+                <div
+                  class="card-exp m-3 mb-0 position-absolute end-0 top-50"
+                  style="font-size: 14px; text-align: center"
+                >
+                  CVV
+                  <p>{{ cardCvv ? cardCvv : "" }}</p>
+                </div>
+              </div>
+              <br /><br />
+
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="cc-name">Name on card</label>
+                  <input
+                    [(ngModel)]="nameOnTheCard"
+                    type="text"
+                    class="form-control"
+                    id="cc-name"
+                    placeholder=""
+                    required
+                  />
+                  <small class="text-muted"
+                    >Full name as displayed on card</small
+                  >
+                  <div class="invalid-feedback">Name on card is required</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="cc-number">Credit card number</label>
+                  <input
+                    [(ngModel)]="cardNumber"
+                    title="Must contain at least 8 or more characters"
+                    type="text"
+                    class="form-control"
+                    id="cc-number"
+                    pattern="[0-9]{16}"
+                    onKeyPress="if(this.value.length>=16) return false; "
+                    placeholder="**** **** **** ****"
+                    required
+                    (input)="cardNumberSplit()"
+                  />
+                  <div class="invalid-feedback">
+                    Credit card number is required
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                  <label for="cc-expiration">Expiration</label>
+                  <input
+                    [(ngModel)]="expirationDate"
+                    type="text"
+                    class="form-control"
+                    onKeyPress="if(this.value.length>=7) return false; "
+                    id="cc-expiration"
+                    placeholder="MM/YYYY"
+                    required
+                  />
+                  <div class="invalid-feedback">Expiration date required</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="cc-expiration">CVV</label>
+                  <input
+                    onKeyPress="if(this.value.length>=3) return false; "
+                    [(ngModel)]="cardCvv"
+                    type="text"
+                    class="form-control"
+                    id="cc-cvv"
+                    placeholder="CCV"
+                    required
+                  />
+                  <div class="invalid-feedback">Security code required</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <button (click)="rentACar()" class="btn btn-warning">
+          {{ amountOfPayment }} Ödeme Yap
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

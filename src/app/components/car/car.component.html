@@ -1,44 +1,151 @@
-<div *ngIf="dataLoaded == false"
-  class="spinner-border text-primary"
-  role="status"
->
-  <span class="visually-hidden">Loading...</span>
-</div>
 <div class="row">
-  <div class="col-lg-4 col-md-6 shadow-lg p-3 mb-5 bg-body rounded " *ngFor="let car of cars">
-  <div class="card border-0 mb-3" style="width: 18rem;">
-    <img src="{{imgUrl}}{{ car.carImage[0].imagePath}}" class="card-img-top" alt="...">
-    <div class="card-body text-center">
-      <h4>
-        <a routerLink="/cars/details/{{car.carId}}" class="card-title text-decoration-none h5" style="color:#007bff;">{{car.carName}} </a>
-      </h4>
+  <div class="col-md-3">
+    <app-brand></app-brand>
+    <app-color></app-color>
+  </div>
+
+  <div class="col-md-9">
+    <div
+      *ngIf="dataLoaded == false"
+      class="spinner-border text-primary"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        <span class="float-start">Brand Name </span>
-        <span class="float-end">{{car.brandName}}</span>
+
+    <div>
+      <label for="filterCar" class="form-label">Search</label>
+      <input
+        type="text"
+        [(ngModel)]="filterCar"
+        class="form-control"
+        id="filterCar"
+        placeholder="Search..."
+      />
+    </div>
+    <div *ngIf="filterCar.length > 2" class="alert alert-success">
+      {{ filterCar }} aradınız.
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="cars"></label>
+        <select
+          [(ngModel)]="brandId"
+          class="form-select"
+          aria-label="Default select example"
+        >
+          <option value="">Brands</option>
+          <option
+            *ngFor="let brand of brands"
+            [ngValue]="brand.brandId"
+            [selected]="setSelectedBrandId(brand.brandId)"
+          >
+            {{ brand.brandName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <label for="cars"></label>
+        <select class="form-select" [(ngModel)]="colorId">
+          <option value="">Colors</option>
+          <option
+            *ngFor="let color of colors"
+            [ngValue]="color.colorId"
+            [selected]="setSelectedColorId(color.colorId)"
+          >
+            {{ color.colorName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-md-4 btn-goback">
+        <br />
+        <button
+          (click)="filterClick()"
+          class="btn btn-xs btn-success"
+          type="button"
+        >
+          <b>Filter</b></button
+        >&nbsp;
+        <button routerLink="/cars" type="button" class="btn btn-xs btn-danger">
+          <b>Clean</b>
+        </button>
+      </div>
+    </div>
+
+    <div class="row">
+      <li
+        class="p-1 bg-dark bg-gradient text-white text-center list-group-item"
+        style="font-size: 30px"
+      >
+        CARS
       </li>
-      <li class="list-group-item">
-        <span class="float-start">Color </span>
-        <span class="float-end">{{car.colorName}}</span>
-      </li>
-      <li class="list-group-item">
-        <span class="float-start">Model Year </span>
-        <span class="float-end">{{car.modelYear}}</span>
-      </li>
-      <li class="list-group-item">
-        <span class="float-start">Description </span>
-        <span class="float-end">{{car.description}}</span>
-      </li>  
-      <p class="card-text text-center h3 mt-3">${{car.dailyPrice }}/Day</p>
-    </ul>
-    <div class="card-body">
-      <div class="d-flex action justify-content-between">
-        <a href="" class="btn btn-success ">Rent Now</a>
-        <a (click)="setCurrentCar(car)" routerLink="cars/details/{{car.carId}}"
-         class="btn btn-primary">Details </a>
+      <div
+        class="col-lg-4 col-md-6 shadow-lg p-3 mb-5 bg-body rounded"
+        *ngFor="let car of cars | filterCar: filterCar"
+      >
+        <div class="card border-0 mb-3" style="width: 18rem">
+          <img
+            src="{{ imgUrl }}{{ car.carImage[0].imagePath }}"
+            class="card-img-top"
+            alt="..."
+          />
+          <div class="card-body text-center">
+            <h4>
+              <a
+                routerLink="cars/cardetails/{{ car.carId }}"
+                class="card-title text-decoration-none h5"
+                style="color: #179da2; font-size: 25px"
+                >{{ car.carName | uppercase }}
+              </a>
+            </h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <span class="float-start">Brand Name</span>
+              <span class="float-end">{{ car.brandName }}</span>
+            </li>
+            <li class="list-group-item">
+              <span class="float-start">Color </span>
+              <span class="float-end">{{ car.colorName }}</span>
+            </li>
+            <li class="list-group-item">
+              <span class="float-start">Model Year </span>
+              <span class="float-end">{{ car.modelYear }}</span>
+            </li>
+            <li class="list-group-item">
+              <span class="float-start">Description </span>
+              <span class="float-end">{{ car.description }}</span>
+            </li>
+            <p class="card-text text-center h3 mt-3" style="color: #808080">
+              <del>${{ car.dailyPrice }} / Day</del>
+            </p>
+            <p
+              class="card-text text-center h3 mt-3"
+              style="color: #f00000; font-size: 30px"
+            >
+              {{ car.dailyPrice | vatAdded: 10 | currency }} / Day
+            </p>
+          </ul>
+          <div class="card-body">
+            <div class="d-flex action justify-content-between">
+              <button
+                (click)="addToRental(car)"
+                routerLink="/rental/{{ car.carId }}"
+                class="btn btn-success"
+              >
+                Rent Now
+              </button>
+              <button
+                routerLink="/cardetails/{{ car.carId }}"
+                class="btn btn-primary"
+              >
+                Details
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  </div>
-  </div>
+</div>

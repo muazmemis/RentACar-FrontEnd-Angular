@@ -1,3 +1,12 @@
+<div class="mb-3">
+  <label for="filterBrand" class="form-label">Search of Brand</label>
+  <input type="text" [(ngModel)]="filterBrand" class="form-control" 
+  id="filterBrand" placeholder="Brand name...">
+</div>
+
+<div *ngIf="filterBrand.length>2" class="alert alert-success">
+  {{filterBrand}} aradınız.
+</div>
 <div class="list-group">
   <button
     type="button"
@@ -10,7 +19,7 @@
   <button
     (click)="setCurrentBrand(brand)"
     routerLink="/cars/brand/{{ brand.brandId }}"
-    *ngFor="let brand of brands"
+    *ngFor="let brand of brands |filterBrand:filterBrand"
     type="button"
     [class]="getCurrentBrandClass(brand)"
   >

@@ -9,4 +9,5 @@ dailyPrice:number;
 modelYear:number;
 description:string;
 carImage:CarImage[];
+status?:boolean;
 }

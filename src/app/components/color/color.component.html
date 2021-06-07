@@ -1,7 +1,20 @@
+<div class="mb-3 mt-3">
+  <label for="filterColor" class="form-label">Search of Color</label>
+  <input
+    type="text"
+    [(ngModel)]="filterColor"
+    class="form-control"
+    id="filterColor"
+    placeholder="Color name..."
+  />
+</div>
+
+<div *ngIf="filterColor.length > 2" class="alert alert-success">
+  {{ filterColor }} aradınız.
+</div>
 <div class="list-group">
   <button
     type="button"
-    style="background-color: #1c5104; color: white"
     (click)="currentColor = null"
     [class]="getAllColorClass()"
     routerLink="/cars"
@@ -9,7 +22,7 @@
     Colors All
   </button>
   <button
-    *ngFor="let color of colors"
+    *ngFor="let color of colors | filterColor: filterColor"
     (click)="setCurrentColor(color)"
     routerLink="/cars/color/{{ color.colorId }}"
     type="button"
